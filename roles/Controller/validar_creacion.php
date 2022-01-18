@@ -12,7 +12,7 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
     require './PHPMailer/src/PHPMailer.php';
     require './PHPMailer/src/SMTP.php';
     require './PHPMailer/src/Exception.php';
-    
+    require './PHPMailer/src/OAuth.php';
 
 
     //SMTP needs accurate times, and the PHP time zone MUST be set
@@ -30,7 +30,7 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
     //Set the hostname of the mail server
     $mail->Host = 'smtp.gmail.com';
     //Set the SMTP port number - likely to be 25, 465 or 587
-    $mail->Port = 465; //25,465
+    $mail->Port = 25; //25,465
     //Whether to use SMTP authentication
     $mail->SMTPAuth = true;
     //Username to use for SMTP authentication
@@ -45,13 +45,13 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
     $mail->addAddress($correo, $usuario);
     //Set the subject line
     $mail->Subject = 'Confirmación de Regitro en WEPORT';
-    $mail->Body = "Confirmar tu registro; \n localhost/admin_alexis/roles/Controller/link_confirmacion.php?cod=".$codigo."\n"; // Mensaje a enviar
+    $mail->Body = "Confirmar tu registro; \n https://app-96e3117e-56c3-448f-82f3-c440ff6bb22b.cleverapps.io/roles/Controller/link_confirmacion.php?cod=".$codigo."\n"; // Mensaje a enviar
     
 
     //send the message, check for errors
     if (!$mail->send()) {
-        // echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
-        echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com');</script>";
+        echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
+        // echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com');</script>";
         //$mail->ErrorInfo;
     } else {
         echo "<script>alert('Correo enviado correctamente!'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";

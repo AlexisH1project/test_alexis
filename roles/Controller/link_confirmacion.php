@@ -11,7 +11,8 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     require './PHPMailer/src/PHPMailer.php';
     require './PHPMailer/src/SMTP.php';
     require './PHPMailer/src/Exception.php';
-    
+    require './PHPMailer/src/OAuth.php';
+
     $sql_admin = "SELECT * FROM usuarios WHERE id_rol = 3";
     if($res_adm = mysqli_query($conexion, $sql_admin)){
         $row_adm = mysqli_fetch_row($res_adm);
@@ -32,7 +33,7 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     //Set the hostname of the mail server
     $mail->Host = 'smtp.gmail.com';
     //Set the SMTP port number - likely to be 25, 465 or 587
-    $mail->Port = 25; //25,465
+    $mail->Port = 465; //25,465
     //Whether to use SMTP authentication
     $mail->SMTPAuth = true;
     //Username to use for SMTP authentication
