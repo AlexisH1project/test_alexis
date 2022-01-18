@@ -32,7 +32,7 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     //Set the hostname of the mail server
     $host = "ssl://smtp.gmail.com";
-    $port = 465;
+    $port = 25;
     //Whether to use SMTP authentication
     $mail->SMTPAuth = true;
     //Username to use for SMTP authentication
