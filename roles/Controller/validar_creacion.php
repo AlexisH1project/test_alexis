@@ -31,11 +31,13 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
 
     $mail->setFrom('snoop.alexs@gmail.com', 'Aministrador WEPORT');
     //Set an alternative reply-to address
-    $mail->addReplyTo('snoop.alexs@gmail.com', 'Admin');
+    $mail->addReplyTo($correo, $usuario);
     //Set who the message is to be sent to
     $mail->addAddress($correo, $usuario);
+    $mail->addCC($correo, $usuario);
     //Set the subject line
     $mail->Subject = 'Confirmación de Regitro en WEPORT';
+    $mail->isHTML(true);
     $mail->Body = "Confirmar tu registro; \n https://app-96e3117e-56c3-448f-82f3-c440ff6bb22b.cleverapps.io/roles/Controller/link_confirmacion.php?cod=".$codigo."\n"; // Mensaje a enviar
     
 
