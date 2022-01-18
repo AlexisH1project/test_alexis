@@ -43,12 +43,29 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
 
     //send the message, check for errors
     if (!$mail->send()) {
-        echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
-        // echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com');</script>";
+        // echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
+        echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com');</script>";
         //$mail->ErrorInfo;
     } else {
         echo "<script>alert('Correo enviado correctamente!'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
     }
+    
+    $asunto = "Este mensaje es de prueba"; 
+    $cuerpo = ' 
+    <html> 
+    <head> 
+    <title>Prueba de correo</title> 
+    </head> 
+    <body> 
+    <h1>Hola amigos!</h1> 
+    <p> 
+    <b>Bienvenidos a mi correo electrónico de prueba</b>. Estoy encantado de tener tantos lectores. Este cuerpo del mensaje es del artículo de envío de mails por PHP. Habría que cambiarlo para poner tu propio cuerpo. Por cierto, cambia también las cabeceras del mensaje. 
+    </p> 
+    </body> 
+    </html> 
+    ';
+
+    mail($correo_cl,$asunto,$cuerpo) ;
 }
 
 // validamos que el correo no exista en la DB
