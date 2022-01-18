@@ -29,11 +29,11 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     // SMTP::DEBUG_CLIENT = client messages
     // SMTP::DEBUG_SERVER = client and server messages
     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-    $mail->SMTPSecure = 'ssl';
+    $mail->SMTPSecure = 'tls';
     //Set the hostname of the mail server
     $mail->Host = 'smtp.gmail.com';
     //Set the SMTP port number - likely to be 25, 465 or 587
-    $mail->Port = 465; //25,465
+    $mail->Port = 587; //25,465
     //Whether to use SMTP authentication
     $mail->SMTPAuth = true;
     //Username to use for SMTP authentication
