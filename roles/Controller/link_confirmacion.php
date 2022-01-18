@@ -22,17 +22,18 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     //This should be done in your php.ini, but this is how to do it if you don't have access to that
     date_default_timezone_set('Etc/UTC');
 
-    $phpmailer = new PHPMailer();
-    $phpmailer->isSMTP();
-    $phpmailer->Host = 'smtp.mailtrap.io';
-    $phpmailer->SMTPAuth = true;
-    $phpmailer->Port = 2525;
-    $phpmailer->Username = '8add26ec7134d2';
-    $phpmailer->Password = '8f6d653a147dec';
+    $mail = new PHPMailer();
+    $mail->isSMTP();
+    $mail->Host = 'smtp.mailtrap.io';
+    $mail->SMTPAuth = true;
+    $mail->Port = 2525;
+    $mail->SMTPSecure = 'tls';
+    $mail->Username = '8add26ec7134d2';
+    $mail->Password = '8f6d653a147dec';
 
-    $mail->setFrom('ximenahernandez422@gmail.com', 'Aministrador WEPORT');
+    $mail->setFrom('snoop.alexs@gmail.com', 'Aministrador WEPORT');
     //Set an alternative reply-to address
-    $mail->addReplyTo('ximenahernandez422@gmail.com', 'Admin');
+    $mail->addReplyTo('snoop.alexs@gmail.com', 'Admin');
     //Set who the message is to be sent to
     $mail->addAddress($row_adm[5], $row_adm[0]);
     //Set the subject line
