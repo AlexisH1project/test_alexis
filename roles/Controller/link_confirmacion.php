@@ -45,7 +45,7 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     //Set an alternative reply-to address
     $mail->addReplyTo('ximenahernandez422@gmail.com', 'Admin');
     //Set who the message is to be sent to
-    $mail->addAddress($correo, $usuario);
+    $mail->addAddress($correo_cl, $nombre_cl);
     //Set the subject line
   
     $mail->Subject = 'Confirmación de Regitro en WEPORT';
