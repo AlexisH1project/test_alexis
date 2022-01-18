@@ -19,28 +19,19 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
     //This should be done in your php.ini, but this is how to do it if you don't have access to that
     date_default_timezone_set('Etc/UTC');
 
+
     $mail = new PHPMailer();
-    //Tell PHPMailer to use SMTP
     $mail->isSMTP();
-    //Enable SMTP debugging
-    // SMTP::DEBUG_OFF = off (for production use)
-    // SMTP::DEBUG_CLIENT = client messages
-    // SMTP::DEBUG_SERVER = client and server messages
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-    //Set the hostname of the mail server
-    $mail->Host = 'smtp.gmail.com';
-    //Set the SMTP port number - likely to be 25, 465 or 587
-    $mail->Port = 25; //25,465
-    //Whether to use SMTP authentication
+    $mail->Host = 'smtp.mailtrap.io';
     $mail->SMTPAuth = true;
-    //Username to use for SMTP authentication
-    $mail->Username = 'ximenahernandez422@gmail.com';
-    //Password to use for SMTP authentication
-    $mail->Password = 'Natacion151020';
-    //Set who the message is to be sent from
-    $mail->setFrom('ximenahernandez422@gmail.com', 'Aministrador WEPORT');
+    $mail->Port = 2525;
+    $mail->SMTPSecure = 'tls';
+    $mail->Username = '8add26ec7134d2';
+    $mail->Password = '8f6d653a147dec';
+
+    $mail->setFrom('snoop.alexs@gmail.com', 'Aministrador WEPORT');
     //Set an alternative reply-to address
-    $mail->addReplyTo('ximenahernandez422@gmail.com', 'Admin');
+    $mail->addReplyTo('snoop.alexs@gmail.com', 'Admin');
     //Set who the message is to be sent to
     $mail->addAddress($correo, $usuario);
     //Set the subject line
