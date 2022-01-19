@@ -58,7 +58,7 @@ if (!isset($_GET['code']) && !isset($_GET['provider'])) {
     exit;
 }
 
-require 'vendor/autoload.php';
+require '../../autoload.php';
 
 session_start();
 
@@ -80,7 +80,7 @@ $clientId = '408726769843-jpqq616hobcbl5jf355m647hqcmpicp6.apps.googleuserconten
 $clientSecret = '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';
 
 //If this automatic URL doesn't work, set it yourself manually to the URL of this script
-$redirectUri = 'https://app-96e3117e-56c3-448f-82f3-c440ff6bb22b.cleverapps.io/vendor/phpmailer/phpmailer/get_oauth_token.php';
+$redirectUri = 'https://localhost/admin_alexis/vendor/phpmailer/phpmailer/get_oauth_token.php';
 //(isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
 
