@@ -34,7 +34,7 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
     $clientId = '408726769843-jpqq616hobcbl5jf355m647hqcmpicp6.apps.googleusercontent.com';
     $clientSecret = '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';
     
-    $refreshToken = '1//05ABQYhfRvb0ICgYIARAAGAUSNwF-L9IrZ_9aocHjRDnr8xrNEJplT5-4pSqGEeIoDY2o3fhYt2PkJ80-Qg3zEoBi0xokOb2xGnY';
+    $refreshToken = '1//031WvAbgBDj3RCgYIARAAGAMSNwF-L9Ir74J_l23c51OeARW4mbyCEnUWOsfd3I_ZoTSG7XRk0gXLaqsCd6ruUEfWVByTYRpf6D0';
     
     //Create a new OAuth2 provider instance
     $provider = new Google(
