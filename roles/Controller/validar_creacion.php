@@ -66,9 +66,9 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
     
     //send the message, check for errors
     if (!$mail->send()) {
-        echo "<script> alert(Existe un error :( al enviar correo, favor de reportarlo al @: snoop.alexs@gmail.com / ERROR: ' . $mail->ErrorInfo);  window.location.href = '../crearUser.php?usuario_rol=$user_seguir'</script>" ;
+        echo "<script> alert(Existe un error :( al enviar correo, favor de reportarlo al @: snoop.alexs@gmail.com / ERROR: ' . $mail->ErrorInfo);  window.location.href = '../crearUser.php?usuario_rol=$rol'</script>" ;
     } else {
-        echo "<script>alert('El correo se ha enviado :) '); window.location.href = '../crearUser.php?usuario_rol=$user_seguir'</script>";
+        echo "<script>alert('El correo se ha enviado :) '); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
     }
 }
 
