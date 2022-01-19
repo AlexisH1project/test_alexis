@@ -18,40 +18,55 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
         $row_adm = mysqli_fetch_row($res_adm);
     }
 
-    //SMTP needs accurate times, and the PHP time zone MUST be set
-    //This should be done in your php.ini, but this is how to do it if you don't have access to that
-    date_default_timezone_set('Etc/UTC');
-    $mail = new PHPMailer();
-    //Tell PHPMailer to use SMTP
-    $mail->isSMTP();
-    //Enable SMTP debugging
-    // SMTP::DEBUG_OFF = off (for production use)
-    // SMTP::DEBUG_CLIENT = client messages
-    // SMTP::DEBUG_SERVER = client and server messages
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-    $mail->SMTPSecure = 'ssl';
-    //Set the hostname of the mail server
-    $mail->Host = 'smtp.gmail.com';
-    //Set the SMTP port number - likely to be 25, 465 or 587
-    $mail->Port = 465; //25,465
-    //Whether to use SMTP authentication
-    $mail->SMTPAuth = true;
-    //Username to use for SMTP authentication
-    $mail->Username = 'ximenahernandez422@gmail.com';
-    //Password to use for SMTP authentication
-    $mail->Password = 'Natacion151020';
-    //Set who the message is to be sent from
-    $mail->setFrom('ximenahernandez422@gmail.com', 'Aministrador WEPORT');
-    //Set an alternative reply-to address
-    $mail->addReplyTo('ximenahernandez422@gmail.com', 'Admin');
-    //Set who the message is to be sent to
-    $mail->addAddress($correo_cl, $nombre_cl);
-    //Set the subject line
-  
-    $mail->Subject = 'Confirmación de Regitro en WEPORT';
-    $mail->Body = "Confirmo: ". $nombre_cl. "\nCon correo; ". $correo_cl; // Mensaje a enviar
+      //Load Composer's autoloader
+      require '../../vendor/autoload.php';
     
-
+      $mail = new PHPMailer();
+      $mail->isSMTP();
+      $mail->Host = 'smtp.gmail.com';
+      $mail->Port = 465;
+      
+      //Set the encryption mechanism to use:
+      // - SMTPS (implicit TLS on port 465) or
+      // - STARTTLS (explicit TLS on port 587)
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+      
+      $mail->SMTPAuth = true;
+      $mail->AuthType = 'XOAUTH2';
+      
+      $email = 'snoop.alexs@gmail.com'; // the email used to register google app
+      $clientId = '408726769843-jpqq616hobcbl5jf355m647hqcmpicp6.apps.googleusercontent.com';
+      $clientSecret = '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';
+      
+      $refreshToken = '1//031WvAbgBDj3RCgYIARAAGAMSNwF-L9Ir74J_l23c51OeARW4mbyCEnUWOsfd3I_ZoTSG7XRk0gXLaqsCd6ruUEfWVByTYRpf6D0';
+      
+      //Create a new OAuth2 provider instance
+      $provider = new Google(
+          [
+              'clientId' => $clientId,
+              'clientSecret' => $clientSecret,
+          ]
+      );
+      
+      //Pass the OAuth provider instance to PHPMailer
+      $mail->setOAuth(
+          new OAuth(
+              [
+                  'provider' => $provider,
+                  'clientId' => $clientId,
+                  'clientSecret' => $clientSecret,
+                  'refreshToken' => $refreshToken,
+                  'userName' => $email,
+              ]
+          )
+      );
+      
+      $mail->setFrom($email, 'Administrador WEPORT');
+      $mail->addAddress($correo_cl, $nombre_cl);
+      $mail->isHTML(true);
+      $mail->Subject = 'Confirmación de Regitro en WEPORT';
+      $mail->Body = '<b>"Confirmo: </b>"'. $nombre_cl. '"<br><b>Con correo; </b>"'. $correo_cl;
+      
     //send the message, check for errors
     if (!$mail->send()) {
         echo "<script>alert('Existe un Error al confirmar su registro, favor de reportarlo al correo $row_adm[5]');</script>";
@@ -59,24 +74,6 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
     } else {
         echo "<script>alert('Confirmacion correcta!'); </script>";
     }
-
-     
-    $asunto = "Este mensaje es de prueba"; 
-    $cuerpo = ' 
-    <html> 
-    <head> 
-    <title>Prueba de correo</title> 
-    </head> 
-    <body> 
-    <h1>Hola amigos!</h1> 
-    <p> 
-    <b>Bienvenidos a mi correo electrónico de prueba</b>. Estoy encantado de tener tantos lectores. Este cuerpo del mensaje es del artículo de envío de mails por PHP. Habría que cambiarlo para poner tu propio cuerpo. Por cierto, cambia también las cabeceras del mensaje. 
-    </p> 
-    </body> 
-    </html> 
-    ';
-
-    mail($correo_cl,$asunto,$cuerpo) ;
 }
 
 // validamos que el correo no exista en la DB

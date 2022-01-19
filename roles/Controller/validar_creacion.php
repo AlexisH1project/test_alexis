@@ -57,17 +57,18 @@ function enviarCorreo($correo, $usuario, $rol, $codigo){
         )
     );
     
-    $mail->setFrom($email, 'FROM_NAME');
+    $mail->setFrom($email, 'Administrador WEPORT');
     $mail->addAddress($correo, $usuario);
     $mail->isHTML(true);
-    $mail->Subject = 'Email Subject';
-    $mail->Body = '<b>Email Body</b>';
+    $mail->Subject = 'Confirmamos Registro en WEPORT ';
+    $mail->Body = '<b>Bienvenido a WEPORT :) </b><br>
+                <b>Confirmar tu registro: <a>https://app-96e3117e-56c3-448f-82f3-c440ff6bb22b.cleverapps.io/roles/Controller/link_confirmacion.php?cod='.$codigo.'</a></b><br>';
     
     //send the message, check for errors
     if (!$mail->send()) {
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
+        echo 'Existe un error :( al enviar correo, favor de reportarlo al @: snoop.alexs@gmail.com / ERROR: ' . $mail->ErrorInfo;
     } else {
-        echo 'Message sent!';
+        echo "alert('El correo se ha enviado :) '); <script>window.location.href = '../crearUser.php?usuario_rol=$user_seguir'</script>";
     }
 }
 
