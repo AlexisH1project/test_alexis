@@ -1,7 +1,10 @@
 <?php
     include "configuracion.php";
     use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP; 
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\OAuth;
+    use League\OAuth2\Client\Provider\Google;
 
     $cod = $_GET['cod'];
 
