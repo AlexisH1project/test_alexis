@@ -1,7 +1,12 @@
 <?php
     include "configuracion.php";
     use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP; 
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\OAuth;
+    use League\OAuth2\Client\Provider\Google;
+    
+ 
 
     $correo_env = strtolower($_POST['correo']);
     $usuario_env = $_POST['nombre'];
@@ -9,63 +14,61 @@
 
 
 function enviarCorreo($correo, $usuario, $rol, $codigo){
-    require './PHPMailer/src/PHPMailer.php';
-    require './PHPMailer/src/SMTP.php';
-    require './PHPMailer/src/Exception.php';
-    require './PHPMailer/src/OAuth.php';
-
-
-    //SMTP needs accurate times, and the PHP time zone MUST be set
-    //This should be done in your php.ini, but this is how to do it if you don't have access to that
-    date_default_timezone_set('Etc/UTC');
-
-
+    //Load Composer's autoloader
+    require '../../vendor/autoload.php';
+    
     $mail = new PHPMailer();
     $mail->isSMTP();
-    $mail->Host = 'smtp.mailtrap.io';
-    $mail->SMTPAuth = true;
-    $mail->Port = 2525;
-    $mail->SMTPSecure = 'tls';
-    $mail->Username = '8add26ec7134d2';
-    $mail->Password = '8f6d653a147dec';
-
-    $mail->setFrom('snoop.alexs@gmail.com', 'Aministrador WEPORT');
-    //Set an alternative reply-to address
-    $mail->addReplyTo($correo, $usuario);
-    //Set who the message is to be sent to
-    $mail->addAddress($correo, $usuario);
-    $mail->addCC($correo, $usuario);
-    //Set the subject line
-    $mail->Subject = 'Confirmación de Regitro en WEPORT';
-    $mail->isHTML(true);
-    $mail->Body = "Confirmar tu registro; \n https://app-96e3117e-56c3-448f-82f3-c440ff6bb22b.cleverapps.io/roles/Controller/link_confirmacion.php?cod=".$codigo."\n"; // Mensaje a enviar
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = 465;
     
-
+    //Set the encryption mechanism to use:
+    // - SMTPS (implicit TLS on port 465) or
+    // - STARTTLS (explicit TLS on port 587)
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    
+    $mail->SMTPAuth = true;
+    $mail->AuthType = 'XOAUTH2';
+    
+    $email = 'snoop.alexs@gmail.com'; // the email used to register google app
+    $clientId = '408726769843-jpqq616hobcbl5jf355m647hqcmpicp6.apps.googleusercontent.com';
+    $clientSecret = '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';
+    
+    $refreshToken = '1//05ABQYhfRvb0ICgYIARAAGAUSNwF-L9IrZ_9aocHjRDnr8xrNEJplT5-4pSqGEeIoDY2o3fhYt2PkJ80-Qg3zEoBi0xokOb2xGnY';
+    
+    //Create a new OAuth2 provider instance
+    $provider = new Google(
+        [
+            'clientId' => $clientId,
+            'clientSecret' => $clientSecret,
+        ]
+    );
+    
+    //Pass the OAuth provider instance to PHPMailer
+    $mail->setOAuth(
+        new OAuth(
+            [
+                'provider' => $provider,
+                'clientId' => $clientId,
+                'clientSecret' => $clientSecret,
+                'refreshToken' => $refreshToken,
+                'userName' => $email,
+            ]
+        )
+    );
+    
+    $mail->setFrom($email, 'FROM_NAME');
+    $mail->addAddress($correo, $usuario);
+    $mail->isHTML(true);
+    $mail->Subject = 'Email Subject';
+    $mail->Body = '<b>Email Body</b>';
+    
     //send the message, check for errors
     if (!$mail->send()) {
-        // echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
-        echo "<script>alert('Existe un Error al enviar su correo, favor de reportarlo al correo snoop.alexs@gmail.com');</script>";
-        //$mail->ErrorInfo;
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
     } else {
-        // echo "<script>alert('Correo enviado correctamente!'); window.location.href = '../crearUser.php?usuario_rol=$rol'</script>";
+        echo 'Message sent!';
     }
-    
-    $asunto = "Este mensaje es de prueba"; 
-    $cuerpo = ' 
-    <html> 
-    <head> 
-    <title>Prueba de correo</title> 
-    </head> 
-    <body> 
-    <h1>Hola amigos!</h1> 
-    <p> 
-    <b>Bienvenidos a mi correo electrónico de prueba</b>. Estoy encantado de tener tantos lectores. Este cuerpo del mensaje es del artículo de envío de mails por PHP. Habría que cambiarlo para poner tu propio cuerpo. Por cierto, cambia también las cabeceras del mensaje. 
-    </p> 
-    </body> 
-    </html> 
-    ';
-
-    mail($correo_cl,$asunto,$cuerpo) ;
 }
 
 // validamos que el correo no exista en la DB
