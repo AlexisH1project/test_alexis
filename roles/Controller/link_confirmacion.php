@@ -65,9 +65,9 @@ function enviarCorreo($codigo, $nombre_cl, $correo_cl){
       );
       
       $mail->setFrom($email, 'Administrador WEPORT');
-      $mail->addAddress($correo_cl, $nombre_cl);
+      $mail->addAddress($email, 'Admin');
       $mail->isHTML(true);
-      $mail->Subject = 'Confirmación de Regitro en WEPORT';
+      $mail->Subject = 'Cliente confirma regitro en WEPORT';
       $mail->Body = '<b>"Confirmo: </b>"'. $nombre_cl. '"<br><b>Con correo; </b>"'. $correo_cl;
       
     //send the message, check for errors
