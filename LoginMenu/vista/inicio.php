@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-
+<?php
+session_start();
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -30,6 +31,19 @@
         <br/>
         <br/>
         <div class=" container">
+            <?php
+            if(isset($_SESSION['contador'])) 
+            { 
+              $_SESSION['contador'] = $_SESSION['contador'] + 1; 
+              $mensaje = 'Número de visitas: ' . $_SESSION['contador']; 
+            } 
+            else 
+            { 
+              $_SESSION['contador'] = 1; 
+              $mensaje = 'Bienvenido a nuestra página web'; 
+            } 
+            
+            ?>
             <div class="row">
                 <div class="col-lg-12">
 

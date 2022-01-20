@@ -1,5 +1,5 @@
 	<?php
-			header('Location: ./LoginMenu/vista/inicio.html');
+			header('Location: ./LoginMenu/vista/inicio.php');
 		?>
 
 <html>

@@ -1,4 +1,6 @@
-
+<?php
+session_start();
+?>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -76,11 +78,19 @@
 
 	<?php 
 			include "./Controller/configuracion.php";
-			$usuarioSeguir = $_GET['usuario_rol'];
+			$usuarioSeguir = $_SESSION['usuario_rol'];
 
 			$sqlNombre = "SELECT nombrePersonal, id_rol FROM usuarios WHERE usuario = '$usuarioSeguir'";
 			$result = mysqli_query($conexion,$sqlNombre);
 			$nombreU = mysqli_fetch_row($result);
+
+			if(isset($_SESSION['usuario_rol'])) 
+			{ 
+				// $mensaje = "el valor es:" .$_SESSION['contador'];
+				
+			} else{
+				header('Location: ../LoginMenu/vista/inicio.php');
+			}
 		 ?>
  <br>
  <br>

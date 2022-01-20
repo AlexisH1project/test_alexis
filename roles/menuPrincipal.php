@@ -1,4 +1,6 @@
-
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -59,7 +61,20 @@
 	<body>
 		<?php 
 		include "./Controller/configuracion.php";
-		$usuarioSeguir = $_GET['usuario_rol'];
+		$usuarioSeguir = $_SESSION['usuario_rol'];
+
+		// if (empty($_SESSION["usuario_rol"])) 
+  		// {
+		// 	header('Location: ../LoginMenu/vista/inicio.html');
+
+  		// }
+		  if(isset($_SESSION['usuario_rol'])) 
+			{ 
+				// $mensaje = "el valor es:" .$_SESSION['contador'];
+				
+			} else{
+				header('Location: ../LoginMenu/vista/inicio.php');
+			}
 
 			$sqlNombre = "SELECT nombrePersonal, id_rol FROM usuarios WHERE usuario = '$usuarioSeguir'";
 			$result = mysqli_query($conexion,$sqlNombre);
@@ -104,7 +119,7 @@
 	          <br>
 	          <br>
 	          <li class=" estilo-color">
-	              <a class="nav-link" href=  "../LoginMenu/vista/cerrarsesion.php" > Cerrar Sesión</a>
+	              <a class="nav-link" href=  "../LoginMenu/vista/cerrarsesion.php" > Cerrar Sesión </a>
 	          </li>
 	          </li>
 	          <li class=" estilo-color">
@@ -184,8 +199,7 @@
 
 		
 			<br><br>
-			
-			
+		
 <script src="js/bootstrap.min.js"></script>
    	<script src="js/main.js"></script>
 			
